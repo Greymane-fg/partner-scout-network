@@ -14,16 +14,305 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      agent_skills: {
+        Row: {
+          agent_id: string
+          for_ecom: boolean
+          for_exec: boolean
+          skill_id: string
+        }
+        Insert: {
+          agent_id: string
+          for_ecom?: boolean
+          for_exec?: boolean
+          skill_id: string
+        }
+        Update: {
+          agent_id?: string
+          for_ecom?: boolean
+          for_exec?: boolean
+          skill_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_skills_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_skills_skill_id_fkey"
+            columns: ["skill_id"]
+            isOneToOne: false
+            referencedRelation: "skills"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      blog_posts: {
+        Row: {
+          agent_id: string
+          body: string
+          created_at: string
+          excerpt: string | null
+          id: string
+          published: boolean
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          agent_id: string
+          body?: string
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          published?: boolean
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          agent_id?: string
+          body?: string
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          published?: boolean
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_posts_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contact_methods: {
+        Row: {
+          agent_id: string
+          created_at: string
+          id: string
+          is_primary_ecom: boolean
+          is_primary_exec: boolean
+          label: string | null
+          platform: string
+          value: string
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string
+          id?: string
+          is_primary_ecom?: boolean
+          is_primary_exec?: boolean
+          label?: string | null
+          platform: string
+          value: string
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string
+          id?: string
+          is_primary_ecom?: boolean
+          is_primary_exec?: boolean
+          label?: string | null
+          platform?: string
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contact_methods_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          added_by: string | null
+          approved: boolean
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          full_name: string
+          headline: string | null
+          id: string
+          location: string | null
+          partner_id: string
+          updated_at: string
+        }
+        Insert: {
+          added_by?: string | null
+          approved?: boolean
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          full_name?: string
+          headline?: string | null
+          id: string
+          location?: string | null
+          partner_id: string
+          updated_at?: string
+        }
+        Update: {
+          added_by?: string | null
+          approved?: boolean
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          full_name?: string
+          headline?: string | null
+          id?: string
+          location?: string | null
+          partner_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          agent_id: string
+          created_at: string
+          description: string | null
+          for_ecom: boolean
+          for_exec: boolean
+          id: string
+          result: string | null
+          title: string
+          url: string | null
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string
+          description?: string | null
+          for_ecom?: boolean
+          for_exec?: boolean
+          id?: string
+          result?: string | null
+          title: string
+          url?: string | null
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string
+          description?: string | null
+          for_ecom?: boolean
+          for_exec?: boolean
+          id?: string
+          result?: string | null
+          title?: string
+          url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "projects_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reviews: {
+        Row: {
+          agent_id: string
+          author_name: string
+          content: string
+          created_at: string
+          id: string
+          rating: number
+          source_view: string
+        }
+        Insert: {
+          agent_id: string
+          author_name: string
+          content: string
+          created_at?: string
+          id?: string
+          rating: number
+          source_view?: string
+        }
+        Update: {
+          agent_id?: string
+          author_name?: string
+          content?: string
+          created_at?: string
+          id?: string
+          rating?: number
+          source_view?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      skills: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "member"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +439,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "member"],
+    },
   },
 } as const
