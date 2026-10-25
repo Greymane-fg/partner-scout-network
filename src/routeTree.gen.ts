@@ -10,33 +10,60 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EcomRouteImport } from './routes/ecom'
+import { Route as EcomIndexRouteImport } from './routes/ecom.index'
+import { Route as EcomAgentsPartnerIdRouteImport } from './routes/ecom.agents.$partnerId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EcomRoute = EcomRouteImport.update({
+  id: '/ecom',
+  path: '/ecom',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EcomIndexRoute = EcomIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EcomRoute,
+} as any)
+const EcomAgentsPartnerIdRoute = EcomAgentsPartnerIdRouteImport.update({
+  id: '/agents/$partnerId',
+  path: '/agents/$partnerId',
+  getParentRoute: () => EcomRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ecom': typeof EcomRouteWithChildren
+  '/ecom/': typeof EcomIndexRoute
+  '/ecom/agents/$partnerId': typeof EcomAgentsPartnerIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ecom': typeof EcomIndexRoute
+  '/ecom/agents/$partnerId': typeof EcomAgentsPartnerIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ecom': typeof EcomRouteWithChildren
+  '/ecom/': typeof EcomIndexRoute
+  '/ecom/agents/$partnerId': typeof EcomAgentsPartnerIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/ecom' | '/ecom/' | '/ecom/agents/$partnerId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/ecom' | '/ecom/agents/$partnerId'
+  id: '__root__' | '/' | '/ecom' | '/ecom/' | '/ecom/agents/$partnerId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EcomRoute: typeof EcomRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +75,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ecom': {
+      id: '/ecom'
+      path: '/ecom'
+      fullPath: '/ecom'
+      preLoaderRoute: typeof EcomRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ecom/': {
+      id: '/ecom/'
+      path: '/'
+      fullPath: '/ecom/'
+      preLoaderRoute: typeof EcomIndexRouteImport
+      parentRoute: typeof EcomRoute
+    }
+    '/ecom/agents/$partnerId': {
+      id: '/ecom/agents/$partnerId'
+      path: '/agents/$partnerId'
+      fullPath: '/ecom/agents/$partnerId'
+      preLoaderRoute: typeof EcomAgentsPartnerIdRouteImport
+      parentRoute: typeof EcomRoute
+    }
   }
 }
 
+interface EcomRouteChildren {
+  EcomIndexRoute: typeof EcomIndexRoute
+  EcomAgentsPartnerIdRoute: typeof EcomAgentsPartnerIdRoute
+}
+
+const EcomRouteChildren: EcomRouteChildren = {
+  EcomIndexRoute: EcomIndexRoute,
+  EcomAgentsPartnerIdRoute: EcomAgentsPartnerIdRoute,
+}
+
+const EcomRouteWithChildren = EcomRoute._addFileChildren(EcomRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EcomRoute: EcomRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
