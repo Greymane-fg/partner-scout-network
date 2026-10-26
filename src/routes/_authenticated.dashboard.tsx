@@ -63,6 +63,17 @@ function slugify(title: string) {
     .slice(0, 80);
 }
 
+type Profile = {
+  id: string;
+  partner_id: string;
+  full_name: string;
+  headline: string | null;
+  bio: string | null;
+  avatar_url: string | null;
+  location: string | null;
+  approved: boolean;
+};
+
 function useProfile(userId: string | undefined) {
   return useQuery({
     queryKey: ["dash", "profile", userId],
@@ -70,7 +81,7 @@ function useProfile(userId: string | undefined) {
     queryFn: async () => {
       const { data, error } = await supabase.from("profiles").select("*").eq("id", userId!).maybeSingle();
       if (error) throw error;
-      return data;
+      return (data ?? null) as Profile | null;
     },
   });
 }
@@ -160,7 +171,7 @@ function DashboardPage() {
 
 /* ============ Profile ============ */
 
-function ProfileTab({ userId, profile }: { userId: string; profile: Record<string, unknown> | null | undefined }) {
+function ProfileTab({ userId, profile }: { userId: string; profile: Profile | null | undefined }) {
   const qc = useQueryClient();
   const [fullName, setFullName] = useState("");
   const [headline, setHeadline] = useState("");
@@ -263,10 +274,14 @@ function SkillsTab({ userId }: { userId: string }) {
   async function toggle(skillId: string, col: "for_ecom" | "for_exec", value: boolean) {
     const existing = mineByKey.get(skillId);
     if (existing) {
-      const { error } = await supabase.from("agent_skills").update({ [col]: value }).eq("agent_id", userId).eq("skill_id", skillId);
+      const patch = col === "for_ecom" ? { for_ecom: value } : { for_exec: value };
+      const { error } = await supabase.from("agent_skills").update(patch).eq("agent_id", userId).eq("skill_id", skillId);
       if (error) toast.error(error.message);
     } else {
-      const insert: Record<string, unknown> = { agent_id: userId, skill_id: skillId, for_ecom: false, for_exec: false, [col]: value };
+      const insert =
+        col === "for_ecom"
+          ? { agent_id: userId, skill_id: skillId, for_ecom: value }
+          : { agent_id: userId, skill_id: skillId, for_exec: value };
       const { error } = await supabase.from("agent_skills").insert(insert);
       if (error) toast.error(error.message);
     }
@@ -525,11 +540,13 @@ function ContactsTab({ userId }: { userId: string }) {
 
   async function setPrimary(row: ContactRow, col: "ecom" | "exec", value: boolean) {
     const field = col === "ecom" ? "is_primary_ecom" : "is_primary_exec";
+    const clearPatch = field === "is_primary_ecom" ? { is_primary_ecom: false } : { is_primary_exec: false };
+    const setPatch = field === "is_primary_ecom" ? { is_primary_ecom: value } : { is_primary_exec: value };
     if (value) {
       // Clear the current primary first (DB enforces one primary per view).
-      await supabase.from("contact_methods").update({ [field]: false }).eq("agent_id", userId).neq("id", row.id);
+      await supabase.from("contact_methods").update(clearPatch).eq("agent_id", userId).neq("id", row.id);
     }
-    const { error } = await supabase.from("contact_methods").update({ [field]: value }).eq("id", row.id).eq("agent_id", userId);
+    const { error } = await supabase.from("contact_methods").update(setPatch).eq("id", row.id).eq("agent_id", userId);
     if (error) toast.error(error.message);
     qc.invalidateQueries({ queryKey: ["dash", "contacts", userId] });
   }
@@ -841,7 +858,10 @@ function TeamTab() {
     e.preventDefault();
     setBusy(true);
     setResult(null);
-    const res = await addAgent({ data: { fullName, email, headline: headline || undefined, location: location || undefined } });
+    const payload: { fullName: string; email: string; headline?: string; location?: string } = { fullName, email };
+    if (headline.trim()) payload.headline = headline.trim();
+    if (location.trim()) payload.location = location.trim();
+    const res = await addAgent({ data: payload });
     setBusy(false);
     if (res.ok) {
       toast.success(`Invite sent. New partner ID: ${res.partnerId}`);
