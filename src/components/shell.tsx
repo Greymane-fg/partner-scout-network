@@ -5,23 +5,25 @@ import { LogOut, Menu, User } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
-export type ViewKey = "ecom" | "exec" | "agent";
+export type ViewKey = "ecom" | "exec" | "agent" | "default";
 
 export const viewClass: Record<ViewKey, string> = {
   ecom: "view-ecom",
   exec: "view-exec",
   agent: "view-agent",
+  default: "",
 };
 
 const viewBrandTag: Record<ViewKey, string> = {
   ecom: "For Ecommerce Brands",
   exec: "For Executive Teams",
   agent: "Agent Network",
+  default: "One network — three doors",
 };
 
 function Brand({ view }: { view: ViewKey }) {
   return (
-    <Link to={view === "agent" ? "/agent" : `/${view}`} className="flex items-center gap-2.5">
+    <Link to={view === "agent" ? "/agent" : view === "default" ? "/" : `/${view}`} className="flex items-center gap-2.5">
       <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary font-view-display text-sm font-bold text-primary-foreground">
         PH
       </span>
@@ -142,11 +144,17 @@ export function ViewShell({
           { label: "Blog", to: "/blog" },
           { label: "About", to: "/about" },
         ]
-      : [
-          { label: "Home", to: `/${view}` },
-          { label: "Blog", to: "/blog" },
-          { label: "About", to: "/about" },
-        ];
+      : view === "default"
+        ? [
+            { label: "Home", to: "/" },
+            { label: "Blog", to: "/blog" },
+            { label: "About", to: "/about" },
+          ]
+        : [
+            { label: "Home", to: `/${view}` },
+            { label: "Blog", to: "/blog" },
+            { label: "About", to: "/about" },
+          ];
 
   return (
     <div className={cn("flex min-h-screen flex-col", viewClass[view])}>

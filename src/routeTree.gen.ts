@@ -10,13 +10,58 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AgentRouteImport } from './routes/agent'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BlogRouteImport } from './routes/blog'
+import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as EcomRouteImport } from './routes/ecom'
+import { Route as ExecRouteImport } from './routes/exec'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.admin'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated.dashboard'
+import { Route as AgentIndexRouteImport } from './routes/agent.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as EcomIndexRouteImport } from './routes/ecom.index'
+import { Route as ExecIndexRouteImport } from './routes/exec.index'
 import { Route as EcomAgentsPartnerIdRouteImport } from './routes/ecom.agents.$partnerId'
+import { Route as ExecAgentsPartnerIdRouteImport } from './routes/exec.agents.$partnerId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentRoute = AgentRouteImport.update({
+  id: '/agent',
+  path: '/agent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EcomRoute = EcomRouteImport.update({
@@ -24,46 +69,206 @@ const EcomRoute = EcomRouteImport.update({
   path: '/ecom',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExecRoute = ExecRouteImport.update({
+  id: '/exec',
+  path: '/exec',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AgentIndexRoute = AgentIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AgentRoute,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
+} as any)
 const EcomIndexRoute = EcomIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => EcomRoute,
+} as any)
+const ExecIndexRoute = ExecIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ExecRoute,
 } as any)
 const EcomAgentsPartnerIdRoute = EcomAgentsPartnerIdRouteImport.update({
   id: '/agents/$partnerId',
   path: '/agents/$partnerId',
   getParentRoute: () => EcomRoute,
 } as any)
+const ExecAgentsPartnerIdRoute = ExecAgentsPartnerIdRouteImport.update({
+  id: '/agents/$partnerId',
+  path: '/agents/$partnerId',
+  getParentRoute: () => ExecRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/agent': typeof AgentRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/cookies': typeof CookiesRoute
   '/ecom': typeof EcomRouteWithChildren
+  '/exec': typeof ExecRouteWithChildren
+  '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/terms': typeof TermsRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/agent/': typeof AgentIndexRoute
   '/ecom/': typeof EcomIndexRoute
+  '/exec/': typeof ExecIndexRoute
   '/ecom/agents/$partnerId': typeof EcomAgentsPartnerIdRoute
+  '/exec/agents/$partnerId': typeof ExecAgentsPartnerIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/cookies': typeof CookiesRoute
+  '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/terms': typeof TermsRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/agent': typeof AgentIndexRoute
   '/ecom': typeof EcomIndexRoute
+  '/exec': typeof ExecIndexRoute
   '/ecom/agents/$partnerId': typeof EcomAgentsPartnerIdRoute
+  '/exec/agents/$partnerId': typeof ExecAgentsPartnerIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/about': typeof AboutRoute
+  '/agent': typeof AgentRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/cookies': typeof CookiesRoute
   '/ecom': typeof EcomRouteWithChildren
+  '/exec': typeof ExecRouteWithChildren
+  '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/terms': typeof TermsRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/agent/': typeof AgentIndexRoute
   '/ecom/': typeof EcomIndexRoute
+  '/exec/': typeof ExecIndexRoute
   '/ecom/agents/$partnerId': typeof EcomAgentsPartnerIdRoute
+  '/exec/agents/$partnerId': typeof ExecAgentsPartnerIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ecom' | '/ecom/' | '/ecom/agents/$partnerId'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/agent'
+    | '/auth'
+    | '/blog'
+    | '/cookies'
+    | '/ecom'
+    | '/exec'
+    | '/privacy'
+    | '/reset-password'
+    | '/terms'
+    | '/admin'
+    | '/dashboard'
+    | '/blog/$slug'
+    | '/agent/'
+    | '/ecom/'
+    | '/exec/'
+    | '/ecom/agents/$partnerId'
+    | '/exec/agents/$partnerId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ecom' | '/ecom/agents/$partnerId'
-  id: '__root__' | '/' | '/ecom' | '/ecom/' | '/ecom/agents/$partnerId'
+  to:
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/blog'
+    | '/cookies'
+    | '/privacy'
+    | '/reset-password'
+    | '/terms'
+    | '/admin'
+    | '/dashboard'
+    | '/blog/$slug'
+    | '/agent'
+    | '/ecom'
+    | '/exec'
+    | '/ecom/agents/$partnerId'
+    | '/exec/agents/$partnerId'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/about'
+    | '/agent'
+    | '/auth'
+    | '/blog'
+    | '/cookies'
+    | '/ecom'
+    | '/exec'
+    | '/privacy'
+    | '/reset-password'
+    | '/terms'
+    | '/_authenticated/admin'
+    | '/_authenticated/dashboard'
+    | '/blog/$slug'
+    | '/agent/'
+    | '/ecom/'
+    | '/exec/'
+    | '/ecom/agents/$partnerId'
+    | '/exec/agents/$partnerId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AboutRoute: typeof AboutRoute
+  AgentRoute: typeof AgentRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  BlogRoute: typeof BlogRouteWithChildren
+  CookiesRoute: typeof CookiesRoute
   EcomRoute: typeof EcomRouteWithChildren
+  ExecRoute: typeof ExecRouteWithChildren
+  PrivacyRoute: typeof PrivacyRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  TermsRoute: typeof TermsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,12 +280,110 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agent': {
+      id: '/agent'
+      path: '/agent'
+      fullPath: '/agent'
+      preLoaderRoute: typeof AgentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ecom': {
       id: '/ecom'
       path: '/ecom'
       fullPath: '/ecom'
       preLoaderRoute: typeof EcomRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/exec': {
+      id: '/exec'
+      path: '/exec'
+      fullPath: '/exec'
+      preLoaderRoute: typeof ExecRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/agent/': {
+      id: '/agent/'
+      path: '/'
+      fullPath: '/agent/'
+      preLoaderRoute: typeof AgentIndexRouteImport
+      parentRoute: typeof AgentRoute
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
     }
     '/ecom/': {
       id: '/ecom/'
@@ -89,6 +392,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EcomIndexRouteImport
       parentRoute: typeof EcomRoute
     }
+    '/exec/': {
+      id: '/exec/'
+      path: '/'
+      fullPath: '/exec/'
+      preLoaderRoute: typeof ExecIndexRouteImport
+      parentRoute: typeof ExecRoute
+    }
     '/ecom/agents/$partnerId': {
       id: '/ecom/agents/$partnerId'
       path: '/agents/$partnerId'
@@ -96,8 +406,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EcomAgentsPartnerIdRouteImport
       parentRoute: typeof EcomRoute
     }
+    '/exec/agents/$partnerId': {
+      id: '/exec/agents/$partnerId'
+      path: '/agents/$partnerId'
+      fullPath: '/exec/agents/$partnerId'
+      preLoaderRoute: typeof ExecAgentsPartnerIdRouteImport
+      parentRoute: typeof ExecRoute
+    }
   }
 }
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+interface AgentRouteChildren {
+  AgentIndexRoute: typeof AgentIndexRoute
+}
+
+const AgentRouteChildren: AgentRouteChildren = {
+  AgentIndexRoute: AgentIndexRoute,
+}
+
+const AgentRouteWithChildren = AgentRoute._addFileChildren(AgentRouteChildren)
+
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
 interface EcomRouteChildren {
   EcomIndexRoute: typeof EcomIndexRoute
@@ -111,9 +461,31 @@ const EcomRouteChildren: EcomRouteChildren = {
 
 const EcomRouteWithChildren = EcomRoute._addFileChildren(EcomRouteChildren)
 
+interface ExecRouteChildren {
+  ExecIndexRoute: typeof ExecIndexRoute
+  ExecAgentsPartnerIdRoute: typeof ExecAgentsPartnerIdRoute
+}
+
+const ExecRouteChildren: ExecRouteChildren = {
+  ExecIndexRoute: ExecIndexRoute,
+  ExecAgentsPartnerIdRoute: ExecAgentsPartnerIdRoute,
+}
+
+const ExecRouteWithChildren = ExecRoute._addFileChildren(ExecRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AboutRoute: AboutRoute,
+  AgentRoute: AgentRouteWithChildren,
+  AuthRoute: AuthRoute,
+  BlogRoute: BlogRouteWithChildren,
+  CookiesRoute: CookiesRoute,
   EcomRoute: EcomRouteWithChildren,
+  ExecRoute: ExecRouteWithChildren,
+  PrivacyRoute: PrivacyRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
