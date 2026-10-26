@@ -11,9 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AgentRouteImport } from './routes/agent'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as EcomRouteImport } from './routes/ecom'
 import { Route as ExecRouteImport } from './routes/exec'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AgentIndexRouteImport } from './routes/agent.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as EcomIndexRouteImport } from './routes/ecom.index'
 import { Route as ExecIndexRouteImport } from './routes/exec.index'
 import { Route as EcomAgentsPartnerIdRouteImport } from './routes/ecom.agents.$partnerId'
@@ -29,6 +33,16 @@ const AgentRoute = AgentRouteImport.update({
   path: '/agent',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EcomRoute = EcomRouteImport.update({
   id: '/ecom',
   path: '/ecom',
@@ -39,10 +53,20 @@ const ExecRoute = ExecRouteImport.update({
   path: '/exec',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AgentIndexRoute = AgentIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AgentRoute,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
 } as any)
 const EcomIndexRoute = EcomIndexRouteImport.update({
   id: '/',
@@ -68,8 +92,12 @@ const ExecAgentsPartnerIdRoute = ExecAgentsPartnerIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agent': typeof AgentRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/ecom': typeof EcomRouteWithChildren
   '/exec': typeof ExecRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/agent/': typeof AgentIndexRoute
   '/ecom/': typeof EcomIndexRoute
   '/exec/': typeof ExecIndexRoute
@@ -78,6 +106,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/agent': typeof AgentIndexRoute
   '/ecom': typeof EcomIndexRoute
   '/exec': typeof ExecIndexRoute
@@ -88,8 +120,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/agent': typeof AgentRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/ecom': typeof EcomRouteWithChildren
   '/exec': typeof ExecRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/agent/': typeof AgentIndexRoute
   '/ecom/': typeof EcomIndexRoute
   '/exec/': typeof ExecIndexRoute
@@ -101,8 +137,12 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/agent'
+    | '/auth'
+    | '/blog'
     | '/ecom'
     | '/exec'
+    | '/reset-password'
+    | '/blog/$slug'
     | '/agent/'
     | '/ecom/'
     | '/exec/'
@@ -111,6 +151,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
+    | '/blog'
+    | '/reset-password'
+    | '/blog/$slug'
     | '/agent'
     | '/ecom'
     | '/exec'
@@ -120,8 +164,12 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/agent'
+    | '/auth'
+    | '/blog'
     | '/ecom'
     | '/exec'
+    | '/reset-password'
+    | '/blog/$slug'
     | '/agent/'
     | '/ecom/'
     | '/exec/'
@@ -132,8 +180,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AgentRoute: typeof AgentRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  BlogRoute: typeof BlogRouteWithChildren
   EcomRoute: typeof EcomRouteWithChildren
   ExecRoute: typeof ExecRouteWithChildren
+  ResetPasswordRoute: typeof ResetPasswordRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -152,6 +203,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ecom': {
       id: '/ecom'
       path: '/ecom'
@@ -166,12 +231,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExecRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/agent/': {
       id: '/agent/'
       path: '/'
       fullPath: '/agent/'
       preLoaderRoute: typeof AgentIndexRouteImport
       parentRoute: typeof AgentRoute
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
     }
     '/ecom/': {
       id: '/ecom/'
@@ -214,6 +293,16 @@ const AgentRouteChildren: AgentRouteChildren = {
 
 const AgentRouteWithChildren = AgentRoute._addFileChildren(AgentRouteChildren)
 
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
 interface EcomRouteChildren {
   EcomIndexRoute: typeof EcomIndexRoute
   EcomAgentsPartnerIdRoute: typeof EcomAgentsPartnerIdRoute
@@ -241,8 +330,11 @@ const ExecRouteWithChildren = ExecRoute._addFileChildren(ExecRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AgentRoute: AgentRouteWithChildren,
+  AuthRoute: AuthRoute,
+  BlogRoute: BlogRouteWithChildren,
   EcomRoute: EcomRouteWithChildren,
   ExecRoute: ExecRouteWithChildren,
+  ResetPasswordRoute: ResetPasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
