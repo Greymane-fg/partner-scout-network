@@ -10,13 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AgentRouteImport } from './routes/agent'
 import { Route as EcomRouteImport } from './routes/ecom'
+import { Route as ExecRouteImport } from './routes/exec'
+import { Route as AgentIndexRouteImport } from './routes/agent.index'
 import { Route as EcomIndexRouteImport } from './routes/ecom.index'
+import { Route as ExecIndexRouteImport } from './routes/exec.index'
 import { Route as EcomAgentsPartnerIdRouteImport } from './routes/ecom.agents.$partnerId'
+import { Route as ExecAgentsPartnerIdRouteImport } from './routes/exec.agents.$partnerId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentRoute = AgentRouteImport.update({
+  id: '/agent',
+  path: '/agent',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EcomRoute = EcomRouteImport.update({
@@ -24,46 +34,106 @@ const EcomRoute = EcomRouteImport.update({
   path: '/ecom',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExecRoute = ExecRouteImport.update({
+  id: '/exec',
+  path: '/exec',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentIndexRoute = AgentIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AgentRoute,
+} as any)
 const EcomIndexRoute = EcomIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => EcomRoute,
+} as any)
+const ExecIndexRoute = ExecIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ExecRoute,
 } as any)
 const EcomAgentsPartnerIdRoute = EcomAgentsPartnerIdRouteImport.update({
   id: '/agents/$partnerId',
   path: '/agents/$partnerId',
   getParentRoute: () => EcomRoute,
 } as any)
+const ExecAgentsPartnerIdRoute = ExecAgentsPartnerIdRouteImport.update({
+  id: '/agents/$partnerId',
+  path: '/agents/$partnerId',
+  getParentRoute: () => ExecRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agent': typeof AgentRouteWithChildren
   '/ecom': typeof EcomRouteWithChildren
+  '/exec': typeof ExecRouteWithChildren
+  '/agent/': typeof AgentIndexRoute
   '/ecom/': typeof EcomIndexRoute
+  '/exec/': typeof ExecIndexRoute
   '/ecom/agents/$partnerId': typeof EcomAgentsPartnerIdRoute
+  '/exec/agents/$partnerId': typeof ExecAgentsPartnerIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agent': typeof AgentIndexRoute
   '/ecom': typeof EcomIndexRoute
+  '/exec': typeof ExecIndexRoute
   '/ecom/agents/$partnerId': typeof EcomAgentsPartnerIdRoute
+  '/exec/agents/$partnerId': typeof ExecAgentsPartnerIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agent': typeof AgentRouteWithChildren
   '/ecom': typeof EcomRouteWithChildren
+  '/exec': typeof ExecRouteWithChildren
+  '/agent/': typeof AgentIndexRoute
   '/ecom/': typeof EcomIndexRoute
+  '/exec/': typeof ExecIndexRoute
   '/ecom/agents/$partnerId': typeof EcomAgentsPartnerIdRoute
+  '/exec/agents/$partnerId': typeof ExecAgentsPartnerIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ecom' | '/ecom/' | '/ecom/agents/$partnerId'
+  fullPaths:
+    | '/'
+    | '/agent'
+    | '/ecom'
+    | '/exec'
+    | '/agent/'
+    | '/ecom/'
+    | '/exec/'
+    | '/ecom/agents/$partnerId'
+    | '/exec/agents/$partnerId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ecom' | '/ecom/agents/$partnerId'
-  id: '__root__' | '/' | '/ecom' | '/ecom/' | '/ecom/agents/$partnerId'
+  to:
+    | '/'
+    | '/agent'
+    | '/ecom'
+    | '/exec'
+    | '/ecom/agents/$partnerId'
+    | '/exec/agents/$partnerId'
+  id:
+    | '__root__'
+    | '/'
+    | '/agent'
+    | '/ecom'
+    | '/exec'
+    | '/agent/'
+    | '/ecom/'
+    | '/exec/'
+    | '/ecom/agents/$partnerId'
+    | '/exec/agents/$partnerId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentRoute: typeof AgentRouteWithChildren
   EcomRoute: typeof EcomRouteWithChildren
+  ExecRoute: typeof ExecRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -75,12 +145,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/agent': {
+      id: '/agent'
+      path: '/agent'
+      fullPath: '/agent'
+      preLoaderRoute: typeof AgentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ecom': {
       id: '/ecom'
       path: '/ecom'
       fullPath: '/ecom'
       preLoaderRoute: typeof EcomRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/exec': {
+      id: '/exec'
+      path: '/exec'
+      fullPath: '/exec'
+      preLoaderRoute: typeof ExecRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agent/': {
+      id: '/agent/'
+      path: '/'
+      fullPath: '/agent/'
+      preLoaderRoute: typeof AgentIndexRouteImport
+      parentRoute: typeof AgentRoute
     }
     '/ecom/': {
       id: '/ecom/'
@@ -89,6 +180,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EcomIndexRouteImport
       parentRoute: typeof EcomRoute
     }
+    '/exec/': {
+      id: '/exec/'
+      path: '/'
+      fullPath: '/exec/'
+      preLoaderRoute: typeof ExecIndexRouteImport
+      parentRoute: typeof ExecRoute
+    }
     '/ecom/agents/$partnerId': {
       id: '/ecom/agents/$partnerId'
       path: '/agents/$partnerId'
@@ -96,8 +194,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EcomAgentsPartnerIdRouteImport
       parentRoute: typeof EcomRoute
     }
+    '/exec/agents/$partnerId': {
+      id: '/exec/agents/$partnerId'
+      path: '/agents/$partnerId'
+      fullPath: '/exec/agents/$partnerId'
+      preLoaderRoute: typeof ExecAgentsPartnerIdRouteImport
+      parentRoute: typeof ExecRoute
+    }
   }
 }
+
+interface AgentRouteChildren {
+  AgentIndexRoute: typeof AgentIndexRoute
+}
+
+const AgentRouteChildren: AgentRouteChildren = {
+  AgentIndexRoute: AgentIndexRoute,
+}
+
+const AgentRouteWithChildren = AgentRoute._addFileChildren(AgentRouteChildren)
 
 interface EcomRouteChildren {
   EcomIndexRoute: typeof EcomIndexRoute
@@ -111,9 +226,23 @@ const EcomRouteChildren: EcomRouteChildren = {
 
 const EcomRouteWithChildren = EcomRoute._addFileChildren(EcomRouteChildren)
 
+interface ExecRouteChildren {
+  ExecIndexRoute: typeof ExecIndexRoute
+  ExecAgentsPartnerIdRoute: typeof ExecAgentsPartnerIdRoute
+}
+
+const ExecRouteChildren: ExecRouteChildren = {
+  ExecIndexRoute: ExecIndexRoute,
+  ExecAgentsPartnerIdRoute: ExecAgentsPartnerIdRoute,
+}
+
+const ExecRouteWithChildren = ExecRoute._addFileChildren(ExecRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentRoute: AgentRouteWithChildren,
   EcomRoute: EcomRouteWithChildren,
+  ExecRoute: ExecRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

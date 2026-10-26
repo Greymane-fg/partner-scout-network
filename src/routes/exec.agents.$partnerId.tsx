@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { AgentProfilePage } from "@/components/agent-profile";
-import { notFound } from "@tanstack/react-router";
+import { agentProfileQuery } from "@/lib/queries";
 
 export const Route = createFileRoute("/exec/agents/$partnerId")({
   head: ({ loaderData }) => {
@@ -21,16 +21,10 @@ export const Route = createFileRoute("/exec/agents/$partnerId")({
     ];
   },
   loader: async ({ params, context }) => ({
-    agent: await context.queryClient.ensureQueryData(agentProfileLoader(params.partnerId)),
+    agent: await context.queryClient.ensureQueryData(agentProfileQuery(params.partnerId, "exec")),
   }),
   component: ExecAgentProfile,
 });
-
-function agentProfileLoader(partnerId: string) {
-  // Imported lazily to keep this file lean; same query as the component.
-  const { agentProfileQuery } = require("@/lib/queries") as typeof import("@/lib/queries");
-  return agentProfileQuery(partnerId, "exec");
-}
 
 function ExecAgentProfile() {
   const { partnerId } = Route.useParams();
