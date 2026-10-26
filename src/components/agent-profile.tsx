@@ -58,7 +58,7 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
-function ReviewForm({ agentId, partnerId }: { agentId: string; partnerId: string }) {
+function ReviewForm({ agentId, partnerId, view }: { agentId: string; partnerId: string; view: ProfileView }) {
   const qc = useQueryClient();
   const [author, setAuthor] = useState("");
   const [rating, setRating] = useState(5);
@@ -74,8 +74,8 @@ function ReviewForm({ agentId, partnerId }: { agentId: string; partnerId: string
       author_name: author.trim() || "Anonymous client",
       rating,
       content: content.trim(),
-      source_view: partnerId ? undefined : undefined,
-    } as never);
+      source_view: view,
+    });
     setBusy(false);
     if (error) {
       toast.error("Could not post your review. Please try again.");
@@ -306,7 +306,7 @@ export function AgentProfilePage({ partnerId, view }: { partnerId: string; view:
         ) : (
           <p className="mt-4 text-sm text-muted-foreground">No reviews yet — be the first.</p>
         )}
-        <ReviewForm agentId={agent.id} partnerId={agent.partnerId} />
+        <ReviewForm agentId={agent.id} partnerId={agent.partnerId} view={view} />
       </section>
 
       {/* Blog posts */}

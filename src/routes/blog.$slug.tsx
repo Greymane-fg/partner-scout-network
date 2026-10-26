@@ -6,20 +6,22 @@ import { ViewShell } from "@/components/shell";
 export const Route = createFileRoute("/blog/$slug")({
   head: ({ loaderData }) => {
     const post = loaderData?.post;
-    return [
-      {
-        title: post ? `${post.title} — Partner Hub Blog` : "Article — Partner Hub Blog",
-        name: "description",
-        content: post?.excerpt ?? "An article from the Partner Hub partner network.",
-      },
-      { property: "og:title", content: post ? `${post.title} — Partner Hub Blog` : "Article — Partner Hub Blog" },
-      {
-        property: "og:description",
-        content: post?.excerpt ?? "An article from the Partner Hub partner network.",
-      },
-      { property: "og:type", content: "article" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ];
+    return {
+      meta: [
+        {
+          title: post ? `${post.title} — Partner Hub Blog` : "Article — Partner Hub Blog",
+          name: "description",
+          content: post?.excerpt ?? "An article from the Partner Hub partner network.",
+        },
+        { property: "og:title", content: post ? `${post.title} — Partner Hub Blog` : "Article — Partner Hub Blog" },
+        {
+          property: "og:description",
+          content: post?.excerpt ?? "An article from the Partner Hub partner network.",
+        },
+        { property: "og:type", content: "article" },
+        { name: "twitter:card", content: "summary_large_image" },
+      ],
+    };
   },
   loader: async ({ params, context }) => ({
     post: await context.queryClient.ensureQueryData(blogPostQuery(params.slug)),
