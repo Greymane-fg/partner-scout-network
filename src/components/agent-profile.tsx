@@ -148,7 +148,7 @@ export function AgentProfilePage({ partnerId, view }: { partnerId: string; view:
     );
   }
 
-  const firstName = agent.fullName.split(" ")[0];
+  const firstName = agent.fullName.split(" ")[0] ?? agent.fullName;
 
   return (
     <div className="relative overflow-hidden">
