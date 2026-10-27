@@ -4,7 +4,7 @@ import { blogPostQuery } from "@/lib/queries";
 import { ViewShell } from "@/components/shell";
 
 export const Route = createFileRoute("/blog/$slug")({
-  head: ({ loaderData }) => {
+  head: ({ loaderData }: { loaderData?: { title: string; excerpt: string | null } | null }) => {
     const post = loaderData;
     return {
       meta: [

@@ -4,7 +4,7 @@ import { AgentProfilePage } from "@/components/agent-profile";
 import { agentProfileQuery } from "@/lib/queries";
 
 export const Route = createFileRoute("/ecom/agents/$partnerId")({
-  head: ({ loaderData }) => {
+  head: ({ loaderData }: { loaderData?: { fullName: string } | null }) => {
     const name = loaderData?.fullName ?? "Partner";
     return {
       meta: [
