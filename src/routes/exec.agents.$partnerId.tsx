@@ -1,10 +1,11 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { AgentProfilePage } from "@/components/agent-profile";
 import { agentProfileQuery } from "@/lib/queries";
 
 export const Route = createFileRoute("/exec/agents/$partnerId")({
   head: ({ loaderData }) => {
-    const name = loaderData?.agent?.fullName ?? "Partner";
+    const name = loaderData?.fullName ?? "Partner";
     return {
       meta: [
         {
@@ -22,15 +23,14 @@ export const Route = createFileRoute("/exec/agents/$partnerId")({
       ],
     };
   },
-  loader: async ({ params, context }) => ({
-    agent: await context.queryClient.ensureQueryData(agentProfileQuery(params.partnerId, "exec")),
-  }),
+  loader: ({ params, context }) =>
+    context.queryClient.ensureQueryData(agentProfileQuery(params.partnerId, "exec")),
   component: ExecAgentProfile,
 });
 
 function ExecAgentProfile() {
   const { partnerId } = Route.useParams();
-  const { agent } = Route.useLoaderData();
+  const { data: agent } = useSuspenseQuery(agentProfileQuery(partnerId, "exec"));
   if (!agent) throw notFound();
   return <AgentProfilePage partnerId={partnerId} view="exec" />;
 }
