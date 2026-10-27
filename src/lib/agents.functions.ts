@@ -274,7 +274,7 @@ export const addAgent = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: invite, error: inviteError } = await supabaseAdmin.auth.inviteUserByEmail(
+    const { data: invite, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(
       data.email.trim().toLowerCase(),
     );
     if (inviteError || !invite.user) {
