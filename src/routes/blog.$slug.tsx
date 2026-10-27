@@ -5,7 +5,7 @@ import { ViewShell } from "@/components/shell";
 
 export const Route = createFileRoute("/blog/$slug")({
   head: (ctx) => {
-    const post = ctx.loaderData as { title: string; excerpt: string | null } | null;
+    const post = (ctx.loaderData ?? null) as { title: string; excerpt: string | null } | null;
     return {
       meta: [
         {

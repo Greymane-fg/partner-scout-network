@@ -5,7 +5,7 @@ import { agentProfileQuery } from "@/lib/queries";
 
 export const Route = createFileRoute("/ecom/agents/$partnerId")({
   head: (ctx) => {
-    const name = (ctx.loaderData as { fullName?: string } | null)?.fullName ?? "Partner";
+    const name = ((ctx.loaderData ?? null) as { fullName?: string } | null)?.fullName ?? "Partner";
     return {
       meta: [
         {
