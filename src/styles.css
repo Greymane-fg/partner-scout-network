@@ -91,6 +91,12 @@
   --ring: oklch(0.44 0.1 163);
   --view-font-display: "Space Grotesk", sans-serif;
   --view-font-body: "DM Sans", sans-serif;
+
+  /* hero image treatment */
+  --hero-scrim: oklch(0.973 0.014 84 / 0.5);
+  --hero-scrim-strong: oklch(0.973 0.014 84 / 0.88);
+  --on-hero: oklch(0.26 0.035 160);
+  --on-hero-soft: oklch(0.42 0.03 160);
 }
 
 /* ============ EXEC view: cool white, navy and gold ============ */
@@ -116,6 +122,12 @@
   --ring: oklch(0.3 0.075 260);
   --view-font-display: "Libre Baskerville", serif;
   --view-font-body: "IBM Plex Sans", sans-serif;
+
+  /* hero image treatment — dark cinematic */
+  --hero-scrim: oklch(0.19 0.045 258 / 0.55);
+  --hero-scrim-strong: oklch(0.19 0.045 258 / 0.88);
+  --on-hero: oklch(0.975 0.005 255);
+  --on-hero-soft: oklch(0.86 0.012 255);
 }
 
 /* ============ AGENT view: bright grey, high-visibility orange ============ */
@@ -141,6 +153,12 @@
   --ring: oklch(0.7 0.19 48);
   --view-font-display: "Archivo", sans-serif;
   --view-font-body: "Archivo", sans-serif;
+
+  /* hero image treatment */
+  --hero-scrim: oklch(0.935 0.004 260 / 0.55);
+  --hero-scrim-strong: oklch(0.935 0.004 260 / 0.88);
+  --on-hero: oklch(0.16 0.012 260);
+  --on-hero-soft: oklch(0.34 0.02 260);
 }
 
 @layer base {
