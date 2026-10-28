@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import { AgentCard } from "@/components/agent-card";
 import { agentListQuery } from "@/lib/queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import execHero from "@/assets/exec-hero.jpg.asset.json";
 
 export const Route = createFileRoute("/exec/")({
   head: () => ({
@@ -47,11 +48,13 @@ function ExecHome() {
   return (
     <>
       <section className="relative flex min-h-screen flex-col justify-center overflow-hidden border-b border-border px-6 py-24">
-        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 right-[10%] h-[34rem] w-[34rem] rounded-full bg-primary/10 blur-3xl" />
-          <div className="absolute bottom-0 left-[5%] h-[28rem] w-[28rem] rounded-full bg-accent/20 blur-3xl" />
-          <div className="absolute top-1/3 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-secondary blur-3xl" />
-        </div>
+        <img
+          src={execHero.url}
+          alt=""
+          aria-hidden
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        />
+        <div aria-hidden className="view-hero-scrim pointer-events-none absolute inset-0" />
         <div className="relative mx-auto w-full max-w-4xl text-center">
           <p className="font-view-label text-primary">Executive partners · Partner Hub</p>
           <h1 className="mt-6 font-view-display text-5xl font-bold leading-[1.06] tracking-tight text-foreground md:text-7xl">
