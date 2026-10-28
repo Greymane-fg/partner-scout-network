@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import agentHero from "@/assets/agent-hero.jpg.asset.json";
 import { ArrowRight, Globe, IdCard, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/agent/")({
@@ -45,10 +46,13 @@ function AgentHome() {
   return (
     <>
       <section className="relative flex min-h-[calc(100vh-4rem)] flex-col justify-center overflow-hidden border-b border-border px-6 py-20">
-        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -top-32 left-[15%] h-[30rem] w-[30rem] rounded-full bg-primary/20 blur-3xl" />
-          <div className="absolute -bottom-24 right-[10%] h-[24rem] w-[24rem] rounded-full bg-accent/30 blur-3xl" />
-        </div>
+        <img
+          src={agentHero.url}
+          alt=""
+          aria-hidden
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        />
+        <div aria-hidden className="view-hero-scrim pointer-events-none absolute inset-0" />
         <div className="relative mx-auto w-full max-w-4xl">
           <p className="font-view-label text-primary">Agent Network · Partner Hub</p>
           <h1 className="mt-6 font-view-display text-5xl font-bold leading-[1.06] tracking-tight text-foreground md:text-7xl">
