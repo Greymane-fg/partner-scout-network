@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://partner-scout-network.lovable.app/sitemap.xml
