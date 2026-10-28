@@ -194,3 +194,24 @@
 .view-agent {
   --view-font-mono: "IBM Plex Mono", monospace;
 }
+
+/* ============ Full-screen hero image treatment ============ */
+.view-hero-scrim {
+  background:
+    linear-gradient(
+      to bottom,
+      var(--hero-scrim-strong) 0%,
+      transparent 30%,
+      transparent 70%,
+      var(--hero-scrim-strong) 100%
+    ),
+    var(--hero-scrim);
+}
+
+@utility text-on-hero {
+  color: var(--on-hero);
+}
+
+@utility text-on-hero-soft {
+  color: var(--on-hero-soft);
+}
