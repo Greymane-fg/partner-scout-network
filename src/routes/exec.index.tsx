@@ -56,13 +56,13 @@ function ExecHome() {
         />
         <div aria-hidden className="view-hero-scrim pointer-events-none absolute inset-0" />
         <div className="relative mx-auto w-full max-w-4xl text-center">
-          <p className="font-view-label text-primary">Executive partners · Partner Hub</p>
-          <h1 className="mt-6 font-view-display text-5xl font-bold leading-[1.06] tracking-tight text-foreground md:text-7xl">
+          <p className="font-view-label text-accent">Executive partners · Partner Hub</p>
+          <h1 className="mt-6 font-view-display text-5xl font-bold leading-[1.06] tracking-tight text-on-hero md:text-7xl">
             Board-ready specialists,
             <br />
-            <span className="text-primary">on demand.</span>
+            <span className="text-accent">on demand.</span>
           </h1>
-          <p className="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-muted-foreground">
+          <p className="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-on-hero-soft">
             Strategy, finance and transformation operators — each vetted for
             discretion and board-level work. Search by discipline, or by name and
             partner ID if you already know who you need.
@@ -80,11 +80,11 @@ function ExecHome() {
               />
             </label>
           </div>
-          <p className="mt-5 font-view-label text-muted-foreground">
+          <p className="mt-5 font-view-label text-on-hero-soft">
             {filtered.length} partner{filtered.length === 1 ? "" : "s"} available
           </p>
-          <div aria-hidden className="mx-auto mt-16 flex h-10 w-6 items-start justify-center rounded-full border border-border p-1.5">
-            <span className="h-2 w-1 animate-bounce rounded-full bg-muted-foreground/50" />
+          <div aria-hidden className="mx-auto mt-16 flex h-10 w-6 items-start justify-center rounded-full border border-[var(--on-hero-soft)] p-1.5">
+            <span className="h-2 w-1 animate-bounce rounded-full bg-[var(--on-hero-soft)]" />
           </div>
         </div>
       </section>
