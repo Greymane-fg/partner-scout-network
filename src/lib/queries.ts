@@ -2,6 +2,7 @@ import type { View } from "@/lib/agents.functions";
 import {
   getAgent,
   getBlogPost,
+  getViewHighlights,
   listAgents,
   listBlogPosts,
 } from "@/lib/agents.functions";
@@ -31,5 +32,12 @@ export function blogPostQuery(slug: string) {
   return {
     queryKey: ["blog", slug],
     queryFn: () => getBlogPost({ data: { slug } }),
+  };
+}
+
+export function viewHighlightsQuery(view: View) {
+  return {
+    queryKey: ["highlights", view],
+    queryFn: () => getViewHighlights({ data: view }),
   };
 }
