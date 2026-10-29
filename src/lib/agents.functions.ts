@@ -315,3 +315,52 @@ export const removeAgent = createServerFn({ method: "POST" })
     if (error) return { ok: false as const, error: error.message };
     return { ok: true as const };
   });
+
+export type ViewHighlights = {
+  projects: { id: string; title: string; description: string | null; result: string | null; agentName: string; partnerId: string }[];
+  reviews: { id: string; authorName: string; rating: number; content: string; agentName: string; partnerId: string }[];
+  posts: BlogPostListItem[];
+};
+
+export const getViewHighlights = createServerFn({ method: "GET" })
+  .inputValidator((input: View) => input)
+  .handler(async ({ data: view }): Promise<ViewHighlights> => {
+    const supabase = createPublicClient();
+    const [{ data: projects }, { data: reviews }, { data: posts }] = await Promise.all([
+      supabase
+        .from("projects")
+        .select("id, title, description, result, profiles!inner(full_name, partner_id, approved)")
+        .eq(view === "ecom" ? "for_ecom" : "for_exec", true)
+        .eq("profiles.approved", true)
+        .order("created_at", { ascending: false })
+        .limit(6),
+      supabase
+        .from("reviews")
+        .select("id, author_name, rating, content, profiles!inner(full_name, partner_id, approved)")
+        .eq("source_view", view)
+        .eq("profiles.approved", true)
+        .gte("rating", 4)
+        .order("created_at", { ascending: false })
+        .limit(6),
+      supabase
+        .from("blog_posts")
+        .select("title, slug, excerpt, created_at, profiles(full_name, partner_id)")
+        .eq("published", true)
+        .order("created_at", { ascending: false })
+        .limit(3),
+    ]);
+    return {
+      projects: (projects ?? []).map((p) => ({
+        id: p.id, title: p.title, description: p.description, result: p.result,
+        agentName: p.profiles?.full_name ?? "", partnerId: p.profiles?.partner_id ?? "",
+      })),
+      reviews: (reviews ?? []).map((r) => ({
+        id: r.id, authorName: r.author_name, rating: r.rating, content: r.content,
+        agentName: r.profiles?.full_name ?? "", partnerId: r.profiles?.partner_id ?? "",
+      })),
+      posts: (posts ?? []).map((p) => ({
+        title: p.title, slug: p.slug, excerpt: p.excerpt, createdAt: p.created_at,
+        authorName: p.profiles?.full_name ?? "Partner Hub", authorPartnerId: p.profiles?.partner_id ?? "",
+      })),
+    };
+  });
