@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import { AgentCard } from "@/components/agent-card";
 import { agentListQuery } from "@/lib/queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import execHero from "@/assets/exec-hero.jpg.asset.json";
 
 export const Route = createFileRoute("/exec/")({
   head: () => ({
@@ -47,19 +48,21 @@ function ExecHome() {
   return (
     <>
       <section className="relative flex min-h-screen flex-col justify-center overflow-hidden border-b border-border px-6 py-24">
-        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 right-[10%] h-[34rem] w-[34rem] rounded-full bg-primary/10 blur-3xl" />
-          <div className="absolute bottom-0 left-[5%] h-[28rem] w-[28rem] rounded-full bg-accent/20 blur-3xl" />
-          <div className="absolute top-1/3 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-secondary blur-3xl" />
-        </div>
+        <img
+          src={execHero.url}
+          alt=""
+          aria-hidden
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        />
+        <div aria-hidden className="view-hero-scrim pointer-events-none absolute inset-0" />
         <div className="relative mx-auto w-full max-w-4xl text-center">
-          <p className="font-view-label text-primary">Executive partners · Partner Hub</p>
-          <h1 className="mt-6 font-view-display text-5xl font-bold leading-[1.06] tracking-tight text-foreground md:text-7xl">
+          <p className="font-view-label text-accent">Executive partners · Partner Hub</p>
+          <h1 className="mt-6 font-view-display text-5xl font-bold leading-[1.06] tracking-tight text-on-hero md:text-7xl">
             Board-ready specialists,
             <br />
-            <span className="text-primary">on demand.</span>
+            <span className="text-accent">on demand.</span>
           </h1>
-          <p className="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-muted-foreground">
+          <p className="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-on-hero-soft">
             Strategy, finance and transformation operators — each vetted for
             discretion and board-level work. Search by discipline, or by name and
             partner ID if you already know who you need.
@@ -77,11 +80,11 @@ function ExecHome() {
               />
             </label>
           </div>
-          <p className="mt-5 font-view-label text-muted-foreground">
+          <p className="mt-5 font-view-label text-on-hero-soft">
             {filtered.length} partner{filtered.length === 1 ? "" : "s"} available
           </p>
-          <div aria-hidden className="mx-auto mt-16 flex h-10 w-6 items-start justify-center rounded-full border border-border p-1.5">
-            <span className="h-2 w-1 animate-bounce rounded-full bg-muted-foreground/50" />
+          <div aria-hidden className="mx-auto mt-16 flex h-10 w-6 items-start justify-center rounded-full border border-[var(--on-hero-soft)] p-1.5">
+            <span className="h-2 w-1 animate-bounce rounded-full bg-[var(--on-hero-soft)]" />
           </div>
         </div>
       </section>

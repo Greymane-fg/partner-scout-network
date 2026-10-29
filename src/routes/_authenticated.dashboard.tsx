@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import type { Database } from "@/integrations/supabase/types";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -278,7 +279,7 @@ function SkillsTab({ userId }: { userId: string }) {
       const { error } = await supabase.from("agent_skills").update(patch).eq("agent_id", userId).eq("skill_id", skillId);
       if (error) toast.error(error.message);
     } else {
-      const insert =
+      const insert: Database["public"]["Tables"]["agent_skills"]["Insert"] =
         col === "for_ecom"
           ? { agent_id: userId, skill_id: skillId, for_ecom: value }
           : { agent_id: userId, skill_id: skillId, for_exec: value };

@@ -1,11 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { blogPostQuery } from "@/lib/queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { blogPostQuery } from "@/lib/queries";
 import { ViewShell } from "@/components/shell";
 
 export const Route = createFileRoute("/blog/$slug")({
-  head: ({ loaderData }) => {
-    const post = loaderData?.post;
+  head: (ctx) => {
+    const post = (ctx.loaderData ?? null) as { title: string; excerpt: string | null } | null;
     return {
       meta: [
         {
@@ -23,16 +23,15 @@ export const Route = createFileRoute("/blog/$slug")({
       ],
     };
   },
-  loader: async ({ params, context }) => ({
-    post: await context.queryClient.ensureQueryData(blogPostQuery(params.slug)),
-  }),
+  loader: ({ params, context }) => context.queryClient.ensureQueryData(blogPostQuery(params.slug)),
   component: BlogPostPage,
 });
 
 function BlogPostPage() {
   const { slug } = Route.useParams();
-  const { post } = Route.useLoaderData();
+  const { data: post } = useSuspenseQuery(blogPostQuery(slug));
   if (!post) throw notFound();
+  const paragraphs = post.body.split(/\n{2,}/);
 
   return (
     <ViewShell view="default">
@@ -54,7 +53,7 @@ function BlogPostPage() {
           </h1>
           {post.excerpt && <p className="mt-5 text-lg text-muted-foreground">{post.excerpt}</p>}
           <div className="mt-10 space-y-5 text-base leading-relaxed text-foreground">
-            {post.body.split(/\n{2,}/).map((para, i) => (
+            {paragraphs.map((para, i) => (
               <p key={i}>{para}</p>
             ))}
           </div>
