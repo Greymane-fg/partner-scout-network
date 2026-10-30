@@ -14,13 +14,13 @@ export const Route = createFileRoute("/exec/")({
         title: "Executive Partners — Partner Hub",
         name: "description",
         content:
-          "Vetted strategy, finance and transformation partners for board-level work. Search by skill, service, name or partner ID.",
+          "Vetted partners for mid-level management and above — strategy counsel, portfolio websites with auto-generated resumes, AI video presentations and automated workflows. Search by skill, service, name or partner ID.",
       },
       { property: "og:title", content: "Executive Partners — Partner Hub" },
       {
         property: "og:description",
         content:
-          "Vetted strategy, finance and transformation partners for board-level work. Search by skill, service, name or partner ID.",
+          "Vetted partners for mid-level management and above — strategy counsel, portfolio websites with auto-generated resumes, AI video presentations and automated workflows. Search by skill, service, name or partner ID.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -36,8 +36,8 @@ export const Route = createFileRoute("/exec/")({
 
 
 const WHY = [
-  { icon: Lock, title: "Discreet by default", body: "Confidential engagements with partners used to sensitive, board-level work." },
-  { icon: Award, title: "Senior pedigree", body: "Operators who have led strategy, finance and transformation programmes." },
+  { icon: Lock, title: "Discreet by default", body: "Confidential engagements with partners used to sensitive career and organisational work." },
+  { icon: Award, title: "From mid-management up", body: "Partners who have supported managers, directors and executives across every stage above mid-level." },
   { icon: Handshake, title: "Direct access", body: "Speak with the partner themselves — no intermediaries." },
   { icon: ShieldCheck, title: "Vetted & reviewed", body: "Every profile is approved by our admins and backed by client reviews." },
 ];
@@ -47,6 +47,7 @@ const STEPS = [
   { title: "Open a conversation", body: "Contact directly — your name and requirement are pre-filled." },
 ];
 const FAQS = [
+  { q: "What can partners help me with?", a: "Everything from strategy, finance and transformation counsel to a personal portfolio website that auto-generates your resume, AI video presentations and automated workflows. Browse the service list or search a skill to see who offers it." },
   { q: "How are partners vetted?", a: "Every partner is reviewed and approved by a Partner Hub admin before their profile is published." },
   { q: "Are engagements confidential?", a: "Conversations happen directly between you and the partner; agree any NDA with them before sharing detail." },
   { q: "Is there a placement fee?", a: "No — Partner Hub itself never charges a fee. Each partner sets their own rates, so contact them directly to find out what they charge." },
