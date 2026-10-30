@@ -95,14 +95,16 @@ function ExecHome() {
         <div className="relative mx-auto w-full max-w-4xl text-center">
           <p className="font-view-label text-accent">Executive partners · Partner Hub</p>
           <h1 className="mt-6 font-view-display text-5xl font-bold leading-[1.06] tracking-tight text-on-hero md:text-7xl">
-            Board-ready specialists,
+            Management and above,
             <br />
-            <span className="text-accent">on demand.</span>
+            <span className="text-accent">handled.</span>
           </h1>
           <p className="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-on-hero-soft">
-            Strategy, finance and transformation operators — each vetted for
-            discretion and board-level work. Search by discipline, or by name and
-            partner ID if you already know who you need.
+            For mid-level management and above — strategy, finance and
+            transformation counsel, portfolio websites that auto-generate your
+            resume, AI video presentations and automated workflows. Search by
+            discipline, or by name and partner ID if you already know who you
+            need.
           </p>
           <div className="mx-auto mt-10 max-w-xl">
             <label className="relative block">
@@ -111,7 +113,7 @@ function ExecHome() {
                 ref={inputRef}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Try “M&A”, “turnaround”, “PH-1003”…"
+                placeholder="Try “resume website”, “AI video”, “automation”, “PH-1003”…"
                 aria-label="Search partners by skill, service, name or partner ID"
                 className="w-full rounded-2xl border border-input bg-card py-4 pl-12 pr-4 text-base text-foreground shadow-sm outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-ring"
                 maxLength={120}
@@ -127,7 +129,7 @@ function ExecHome() {
         </div>
       </section>
 
-      <WhySection title={"Counsel you can trust with the boardroom."} items={WHY} />
+      <WhySection title={"Built for managers, directors and executives."} items={WHY} />
       <BrowseSection skills={skills} onPick={pick} intro={"Select a discipline to see partners who practise it."} />
       <HowSection steps={STEPS} />
       <section id="partners" className="mx-auto w-full max-w-6xl scroll-mt-20 px-6 py-24">
