@@ -48,7 +48,7 @@ const STEPS = [
 ];
 const FAQS = [
   { q: "How are partners vetted?", a: "Each new partner is approved by a Partner Hub admin before appearing on the site." },
-  { q: "Does Partner Hub charge a fee?", a: "No. You contact and agree terms with partners directly." },
+  { q: "Does Partner Hub charge a fee?", a: "No — Partner Hub itself never charges you anything. Each partner sets their own rates, so contact them directly to find out what they charge." },
   { q: "How do I contact a partner?", a: "Open their profile and pick a contact method. Your name and the service you need are filled in automatically." },
   { q: "Can I find a partner I've worked with before?", a: "Yes — search by their name or partner ID (e.g. PH-1001)." },
   { q: "Can I leave a review?", a: "Yes, every profile has a review form at the bottom." },

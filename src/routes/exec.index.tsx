@@ -49,7 +49,7 @@ const STEPS = [
 const FAQS = [
   { q: "How are partners vetted?", a: "Every partner is reviewed and approved by a Partner Hub admin before their profile is published." },
   { q: "Are engagements confidential?", a: "Conversations happen directly between you and the partner; agree any NDA with them before sharing detail." },
-  { q: "Is there a placement fee?", a: "No. Terms are agreed directly with the partner." },
+  { q: "Is there a placement fee?", a: "No — Partner Hub itself never charges a fee. Each partner sets their own rates, so contact them directly to find out what they charge." },
   { q: "How do I reach a specific partner?", a: "Search their name or partner ID, open the profile and choose a contact method." },
   { q: "Can partners work on interim or fractional terms?", a: "Many do — mention it in your first message and confirm on their profile." },
 ];
