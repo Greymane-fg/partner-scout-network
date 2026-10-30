@@ -14,13 +14,13 @@ export const Route = createFileRoute("/exec/")({
         title: "Executive Partners — Partner Hub",
         name: "description",
         content:
-          "Vetted strategy, finance and transformation partners for board-level work. Search by skill, service, name or partner ID.",
+          "Vetted partners for mid-level management and above — strategy counsel, portfolio websites with auto-generated resumes, AI video presentations and automated workflows. Search by skill, service, name or partner ID.",
       },
       { property: "og:title", content: "Executive Partners — Partner Hub" },
       {
         property: "og:description",
         content:
-          "Vetted strategy, finance and transformation partners for board-level work. Search by skill, service, name or partner ID.",
+          "Vetted partners for mid-level management and above — strategy counsel, portfolio websites with auto-generated resumes, AI video presentations and automated workflows. Search by skill, service, name or partner ID.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -36,8 +36,8 @@ export const Route = createFileRoute("/exec/")({
 
 
 const WHY = [
-  { icon: Lock, title: "Discreet by default", body: "Confidential engagements with partners used to sensitive, board-level work." },
-  { icon: Award, title: "Senior pedigree", body: "Operators who have led strategy, finance and transformation programmes." },
+  { icon: Lock, title: "Discreet by default", body: "Confidential engagements with partners used to sensitive career and organisational work." },
+  { icon: Award, title: "From mid-management up", body: "Partners who have supported managers, directors and executives across every stage above mid-level." },
   { icon: Handshake, title: "Direct access", body: "Speak with the partner themselves — no intermediaries." },
   { icon: ShieldCheck, title: "Vetted & reviewed", body: "Every profile is approved by our admins and backed by client reviews." },
 ];
@@ -47,6 +47,7 @@ const STEPS = [
   { title: "Open a conversation", body: "Contact directly — your name and requirement are pre-filled." },
 ];
 const FAQS = [
+  { q: "What can partners help me with?", a: "Everything from strategy, finance and transformation counsel to a personal portfolio website that auto-generates your resume, AI video presentations and automated workflows. Browse the service list or search a skill to see who offers it." },
   { q: "How are partners vetted?", a: "Every partner is reviewed and approved by a Partner Hub admin before their profile is published." },
   { q: "Are engagements confidential?", a: "Conversations happen directly between you and the partner; agree any NDA with them before sharing detail." },
   { q: "Is there a placement fee?", a: "No — Partner Hub itself never charges a fee. Each partner sets their own rates, so contact them directly to find out what they charge." },
@@ -94,14 +95,16 @@ function ExecHome() {
         <div className="relative mx-auto w-full max-w-4xl text-center">
           <p className="font-view-label text-accent">Executive partners · Partner Hub</p>
           <h1 className="mt-6 font-view-display text-5xl font-bold leading-[1.06] tracking-tight text-on-hero md:text-7xl">
-            Board-ready specialists,
+            Management and above,
             <br />
-            <span className="text-accent">on demand.</span>
+            <span className="text-accent">handled.</span>
           </h1>
           <p className="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-on-hero-soft">
-            Strategy, finance and transformation operators — each vetted for
-            discretion and board-level work. Search by discipline, or by name and
-            partner ID if you already know who you need.
+            For mid-level management and above — strategy, finance and
+            transformation counsel, portfolio websites that auto-generate your
+            resume, AI video presentations and automated workflows. Search by
+            discipline, or by name and partner ID if you already know who you
+            need.
           </p>
           <div className="mx-auto mt-10 max-w-xl">
             <label className="relative block">
@@ -110,7 +113,7 @@ function ExecHome() {
                 ref={inputRef}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Try “M&A”, “turnaround”, “PH-1003”…"
+                placeholder="Try “resume website”, “AI video”, “automation”, “PH-1003”…"
                 aria-label="Search partners by skill, service, name or partner ID"
                 className="w-full rounded-2xl border border-input bg-card py-4 pl-12 pr-4 text-base text-foreground shadow-sm outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-ring"
                 maxLength={120}
@@ -126,7 +129,7 @@ function ExecHome() {
         </div>
       </section>
 
-      <WhySection title={"Counsel you can trust with the boardroom."} items={WHY} />
+      <WhySection title={"Built for managers, directors and executives."} items={WHY} />
       <BrowseSection skills={skills} onPick={pick} intro={"Select a discipline to see partners who practise it."} />
       <HowSection steps={STEPS} />
       <section id="partners" className="mx-auto w-full max-w-6xl scroll-mt-20 px-6 py-24">
