@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Search } from "lucide-react";
+import { Search, Lock, Award, Handshake, ShieldCheck } from "lucide-react";
+import { WhySection, BrowseSection, HowSection, MetricsSection, CaseStudiesSection, ReviewsSection, BlogSection, FaqSection, CtaSection, topSkills } from "@/components/view-sections";
 import { AgentCard } from "@/components/agent-card";
-import { agentListQuery } from "@/lib/queries";
+import { agentListQuery, viewHighlightsQuery } from "@/lib/queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import execHero from "@/assets/exec-hero.jpg.asset.json";
 
@@ -25,9 +26,33 @@ export const Route = createFileRoute("/exec/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(agentListQuery("exec")),
+  loader: ({ context }) =>
+    Promise.all([
+      context.queryClient.ensureQueryData(agentListQuery("exec")),
+      context.queryClient.ensureQueryData(viewHighlightsQuery("exec")),
+    ]),
   component: ExecHome,
 });
+
+
+const WHY = [
+  { icon: Lock, title: "Discreet by default", body: "Confidential engagements with partners used to sensitive, board-level work." },
+  { icon: Award, title: "Senior pedigree", body: "Operators who have led strategy, finance and transformation programmes." },
+  { icon: Handshake, title: "Direct access", body: "Speak with the partner themselves — no intermediaries." },
+  { icon: ShieldCheck, title: "Vetted & reviewed", body: "Every profile is approved by our admins and backed by client reviews." },
+];
+const STEPS = [
+  { title: "Define the mandate", body: "Search by discipline, or by name and partner ID." },
+  { title: "Assess the track record", body: "Review engagements, outcomes and client endorsements." },
+  { title: "Open a conversation", body: "Contact directly — your name and requirement are pre-filled." },
+];
+const FAQS = [
+  { q: "How are partners vetted?", a: "Every partner is reviewed and approved by a Partner Hub admin before their profile is published." },
+  { q: "Are engagements confidential?", a: "Conversations happen directly between you and the partner; agree any NDA with them before sharing detail." },
+  { q: "Is there a placement fee?", a: "No. Terms are agreed directly with the partner." },
+  { q: "How do I reach a specific partner?", a: "Search their name or partner ID, open the profile and choose a contact method." },
+  { q: "Can partners work on interim or fractional terms?", a: "Many do — mention it in your first message and confirm on their profile." },
+];
 
 function matches(agent: { fullName: string; partnerId: string; skills: string[]; headline: string | null }, q: string) {
   const needle = q.trim().toLowerCase();
@@ -42,7 +67,18 @@ function matches(agent: { fullName: string; partnerId: string; skills: string[];
 
 function ExecHome() {
   const { data: agents } = useSuspenseQuery(agentListQuery("exec"));
+  const { data: hl } = useSuspenseQuery(viewHighlightsQuery("exec"));
   const [query, setQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const skills = useMemo(() => topSkills(agents), [agents]);
+  const pick = (q: string) => {
+    setQuery(q);
+    document.getElementById("partners")?.scrollIntoView({ behavior: "smooth" });
+  };
+  const toSearch = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => inputRef.current?.focus(), 500);
+  };
   const filtered = useMemo(() => agents.filter((a) => matches(a, query)), [agents, query]);
 
   return (
@@ -71,6 +107,7 @@ function ExecHome() {
             <label className="relative block">
               <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
               <input
+                ref={inputRef}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Try “M&A”, “turnaround”, “PH-1003”…"
@@ -89,7 +126,10 @@ function ExecHome() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-6 py-16">
+      <WhySection title={"Counsel you can trust with the boardroom."} items={WHY} />
+      <BrowseSection skills={skills} onPick={pick} intro={"Select a discipline to see partners who practise it."} />
+      <HowSection steps={STEPS} />
+      <section id="partners" className="mx-auto w-full max-w-6xl scroll-mt-20 px-6 py-24">
         {filtered.length === 0 ? (
           <p className="py-16 text-center text-muted-foreground">
             No partners match “{query}”. Try a skill, a service, a name or a partner ID.
@@ -102,6 +142,11 @@ function ExecHome() {
           </div>
         )}
       </section>
+      <CaseStudiesSection view="exec" projects={hl.projects} />
+      <ReviewsSection view="exec" reviews={hl.reviews} />
+      <BlogSection posts={hl.posts} />
+      <FaqSection faqs={FAQS} />
+      <CtaSection title={"The right counsel, when it matters."} body="Search by skill, service, name or partner ID." onClick={toSearch} />
     </>
   );
 }

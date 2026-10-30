@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Search } from "lucide-react";
+import { Search, ShieldCheck, Zap, Handshake, TrendingUp } from "lucide-react";
+import { WhySection, BrowseSection, HowSection, MetricsSection, CaseStudiesSection, ReviewsSection, BlogSection, FaqSection, CtaSection, topSkills } from "@/components/view-sections";
 import { AgentCard } from "@/components/agent-card";
-import { agentListQuery } from "@/lib/queries";
+import { agentListQuery, viewHighlightsQuery } from "@/lib/queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import ecomHero from "@/assets/ecom-hero.jpg.asset.json";
 
@@ -25,9 +26,33 @@ export const Route = createFileRoute("/ecom/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(agentListQuery("ecom")),
+  loader: ({ context }) =>
+    Promise.all([
+      context.queryClient.ensureQueryData(agentListQuery("ecom")),
+      context.queryClient.ensureQueryData(viewHighlightsQuery("ecom")),
+    ]),
   component: EcomHome,
 });
+
+
+const WHY = [
+  { icon: ShieldCheck, title: "Vetted operators", body: "Every partner is reviewed by our admins before their profile goes live." },
+  { icon: Zap, title: "Fast response", body: "Reach partners directly on the channel they answer first." },
+  { icon: Handshake, title: "No agency markup", body: "You talk to the specialist, not an account manager." },
+  { icon: TrendingUp, title: "Proven results", body: "Real projects and client reviews on every profile." },
+];
+const STEPS = [
+  { title: "Search", body: "Look up a skill or service, or enter a name or partner ID." },
+  { title: "Review", body: "Check projects, skills and reviews from other merchants." },
+  { title: "Contact", body: "Reach out in one click — your name and the service you need are filled in for you." },
+];
+const FAQS = [
+  { q: "How are partners vetted?", a: "Each new partner is approved by a Partner Hub admin before appearing on the site." },
+  { q: "Does Partner Hub charge a fee?", a: "No. You contact and agree terms with partners directly." },
+  { q: "How do I contact a partner?", a: "Open their profile and pick a contact method. Your name and the service you need are filled in automatically." },
+  { q: "Can I find a partner I've worked with before?", a: "Yes — search by their name or partner ID (e.g. PH-1001)." },
+  { q: "Can I leave a review?", a: "Yes, every profile has a review form at the bottom." },
+];
 
 function matches(agent: { fullName: string; partnerId: string; skills: string[]; headline: string | null }, q: string) {
   const needle = q.trim().toLowerCase();
@@ -42,7 +67,18 @@ function matches(agent: { fullName: string; partnerId: string; skills: string[];
 
 function EcomHome() {
   const { data: agents } = useSuspenseQuery(agentListQuery("ecom"));
+  const { data: hl } = useSuspenseQuery(viewHighlightsQuery("ecom"));
   const [query, setQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const skills = useMemo(() => topSkills(agents), [agents]);
+  const pick = (q: string) => {
+    setQuery(q);
+    document.getElementById("partners")?.scrollIntoView({ behavior: "smooth" });
+  };
+  const toSearch = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => inputRef.current?.focus(), 500);
+  };
   const filtered = useMemo(() => agents.filter((a) => matches(a, query)), [agents, query]);
 
   return (
@@ -71,6 +107,7 @@ function EcomHome() {
             <label className="relative block">
               <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
               <input
+                ref={inputRef}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Try “Meta Ads”, “supply chain”, “PH-1001”…"
@@ -89,7 +126,16 @@ function EcomHome() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-6 py-14">
+      <WhySection title={"Built for merchants who move fast."} items={WHY} />
+      <BrowseSection skills={skills} onPick={pick} intro={"Pick a service to see the partners who offer it."} />
+      <HowSection steps={STEPS} />
+      <MetricsSection metrics={[
+        { value: String(agents.length), label: "Vetted partners" },
+        { value: String(skills.length), label: "Core services" },
+        { value: String(hl.projects.length) + "+", label: "Featured projects" },
+        { value: "0%", label: "Platform fees" },
+      ]} />
+      <section id="partners" className="mx-auto w-full max-w-6xl scroll-mt-20 px-6 py-24">
         {filtered.length === 0 ? (
           <p className="py-16 text-center text-muted-foreground">
             No partners match “{query}”. Try a skill, a service, a name or a partner ID.
@@ -102,6 +148,11 @@ function EcomHome() {
           </div>
         )}
       </section>
+      <CaseStudiesSection view="ecom" projects={hl.projects} />
+      <ReviewsSection view="ecom" reviews={hl.reviews} />
+      <BlogSection posts={hl.posts} />
+      <FaqSection faqs={FAQS} />
+      <CtaSection title={"Your next growth partner is one search away."} body="Search by skill, service, name or partner ID." onClick={toSearch} />
     </>
   );
 }
